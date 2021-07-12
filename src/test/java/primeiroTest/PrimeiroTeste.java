@@ -1,24 +1,29 @@
 package primeiroTest;
 
 import org.assertj.core.api.*;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-
+@ExtendWith(MockitoExtension.class)
 public class PrimeiroTeste {
-        Calculadora calculadora;
+
+    @Mock
+    Calculadora calculadora;
         int a = 10, b = 5;
 
-    @Before
+    @BeforeEach
     public void setUp() {
          calculadora = new Calculadora();
     }
 
     @Test
+    @DisplayName("Deve somar dois Numeros")
     public void deveSomarDoisNumeros() {
         // cenario
-
 
         // execução
         int resultado = calculadora.somar(a,b);
@@ -27,18 +32,19 @@ public class PrimeiroTeste {
         Assertions.assertThat(resultado).isEqualTo(15);
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
+    @DisplayName("Não Deve somar numeros negativos")
     public void nãoDeveSomarNumerosNegativos() {
         // cenario
 
         int a = -10, b = 5;
 
         // execução
-        calculadora.somar(a,b);
-
-
+        org.junit.jupiter.api.Assertions
+                .assertThrows(RuntimeException.class, () -> calculadora.somar(a,b) );
     }
     @Test
+    @DisplayName("Deve Subtrair com dois Numeros")
     public void deveSubtrairComDoisNumeros() {
         // cenario
 
@@ -50,6 +56,7 @@ public class PrimeiroTeste {
     }
 
     @Test
+    @DisplayName("Deve Multiplicar os numeros")
     public void multiplicacao() {
         // cenario
 
@@ -58,6 +65,7 @@ public class PrimeiroTeste {
     }
 
     @Test
+    @DisplayName("Deve Dividir os numeros")
     public void deveDividirDoisNumeros() {
         // cenario
 
@@ -70,14 +78,14 @@ public class PrimeiroTeste {
         Assertions.assertThat(resultado).isGreaterThan(0);
     }
 
-    @Test(expected = ArithmeticException.class)
+    @Test
+    @DisplayName(" Não Deve Dividir os numeros por zero")
     public void nãoDeveDividirPorZero() {
         // cenario
         int num1 = 10, num2 = 0;
-
         //execução
-        calculadora.divisao(num1,num2);
-
+        org.junit.jupiter.api.Assertions
+                .assertThrows(ArithmeticException.class, () -> calculadora.divisao(num1,num2) );
 
     }
 }
